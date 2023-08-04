@@ -66,7 +66,7 @@ export function useFormStore(): FormStore {
 
   const updateField = (id: string, updateField: Field) => {
     setFields((prevFields) =>
-      prevFields.map((field) => (field.id === 'id' ? updateField : field))
+      prevFields.map((field) => (field.id === id ? updateField : field))
     );
   };
 
