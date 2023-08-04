@@ -7,6 +7,7 @@ export type Submit = {
   label?: never;
   placeholder?: never;
 };
+
 export type Input = {
   type: 'text' | 'date' | 'number';
   text?: never;
@@ -14,6 +15,7 @@ export type Input = {
   id: string;
   label: string | null;
 };
+
 export type Combobox = {
   type: 'country';
   text?: never;
@@ -21,34 +23,20 @@ export type Combobox = {
   label: string | null;
   placeholder: string;
 };
+
 export type Field = Input | Submit | Combobox;
 
-const INIT_FIELDS: Field[] = [
-  {
-    type: 'text',
-    placeholder: 'Name',
-    label: null,
-    id: self.crypto.randomUUID(),
-  },
-  {
-    type: 'number',
-    placeholder: 'Age',
-    label: null,
-    id: self.crypto.randomUUID(),
-  },
+export const INIT_FIELDS: Field[] = [
+  { type: 'text', placeholder: 'Name', label: null, id: 'random-id-1' },
+  { type: 'number', placeholder: 'Age', label: null, id: 'random-id-2' },
   {
     type: 'date',
     placeholder: 'Date of Birth',
     label: null,
-    id: self.crypto.randomUUID(),
+    id: 'random-id-3',
   },
-  {
-    type: 'country',
-    placeholder: 'Country',
-    label: null,
-    id: self.crypto.randomUUID(),
-  },
-  { type: 'submit', text: 'submit', id: self.crypto.randomUUID() },
+  { type: 'country', placeholder: 'Country', label: null, id: 'random-id-4' },
+  { type: 'submit', text: 'submit', id: 'random-id-5' },
 ];
 
 /**
@@ -58,15 +46,15 @@ const INIT_FIELDS: Field[] = [
 
 type FormStore = {
   fields: Field[];
-  updateField: (id: string, updateField: Field) => void;
+  updateField: (id: string, updatedField: Field) => void;
 };
 
 export function useFormStore(): FormStore {
   const [fields, setFields] = useState<Field[]>(INIT_FIELDS);
 
-  const updateField = (id: string, updateField: Field) => {
+  const updateField = (id: string, updatedField: Field) => {
     setFields((prevFields) =>
-      prevFields.map((field) => (field.id === id ? updateField : field))
+      prevFields.map((field) => (field.id === id ? updatedField : field))
     );
   };
 
@@ -78,11 +66,13 @@ export function useFormStore(): FormStore {
  * TODO: complete this hook by wiring up the form store
  * @returns
  */
+
 function useFields(): {
   fields: Field[];
   updateField: FormStore['updateField'];
 } {
   const formStore = useFormStore();
+
   return { fields: formStore.fields, updateField: formStore.updateField };
 }
 
